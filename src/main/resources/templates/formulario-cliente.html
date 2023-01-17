@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Cliente</title>
+</head>
+<body>
+    <form method="POST"
+          th:action="@{/cliente/registro}">
+        <input type="number" name="documento" placeholder="Documento">
+        <input type="text" name="nombre" placeholder="Nombre">
+        <input type="text" name="apellido" placeholder="Apellido">
+        <input type="text" name="telefono" placeholder="Teléfono">
+        <button type="submit">Registrar</button>
+    </form>
+    <p th:if="${exito!=null}"
+       th:text="${exito}"></p>
+    <p th:if="${error}"
+       th:text="${error}"</p>
+</body>
+</html>
