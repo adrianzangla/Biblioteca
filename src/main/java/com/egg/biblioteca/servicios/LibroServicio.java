@@ -28,7 +28,7 @@ public class LibroServicio {
     EditorialServicio editorialServicio;
 
     private void validar(String id) throws ServicioExcepcion {
-        if (id == null) {
+        if (id == null || id.trim().isEmpty()) {
             throw new ServicioExcepcion("Libro inválido");
         }
     }
@@ -110,6 +110,7 @@ public class LibroServicio {
             Integer ejemplaresRestantes,
             String idAutor,
             String idEditorial) throws ServicioExcepcion {
+        validar(id);
         validar(isbn,
                 titulo,
                 anio,
@@ -117,6 +118,9 @@ public class LibroServicio {
                 ejemplaresPrestados,
                 ejemplaresRestantes);
         Libro libro = leer(id);
+        if (libro == null) {
+            throw new ServicioExcepcion("Libro inválido");
+        }
         libro.setIsbn(isbn);
         libro.setTitulo(titulo);
         libro.setAnio(anio);
@@ -130,7 +134,11 @@ public class LibroServicio {
     
     @Transactional
     public void borrar(String id) throws ServicioExcepcion {
+        validar(id);
         Libro libro = leer(id);
+        if (libro == null) {
+            throw new ServicioExcepcion("Libro inválido");
+        }
         libro.setAlta(false);
         libroRepositorio.save(libro);
     }

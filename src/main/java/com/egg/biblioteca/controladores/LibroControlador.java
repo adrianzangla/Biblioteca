@@ -5,15 +5,10 @@
  */
 package com.egg.biblioteca.controladores;
 
-import com.egg.biblioteca.entidades.Autor;
-import com.egg.biblioteca.entidades.Editorial;
 import com.egg.biblioteca.excepciones.ServicioExcepcion;
 import com.egg.biblioteca.servicios.AutorServicio;
 import com.egg.biblioteca.servicios.EditorialServicio;
 import com.egg.biblioteca.servicios.LibroServicio;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -53,8 +48,8 @@ public class LibroControlador {
             @RequestParam(required = false) Integer ejemplares,
             @RequestParam(required = false) Integer ejemplaresPrestados,
             @RequestParam(required = false) Integer ejemplaresRestantes,
-            @RequestParam() String idAutor,
-            @RequestParam() String idEditorial) {
+            @RequestParam String idAutor,
+            @RequestParam String idEditorial) {
         try {
             libroServicio.crear(isbn,
                     titulo,

@@ -64,15 +64,23 @@ public class EditorialServicio {
     
     @Transactional
     public void actualizar(String id, String nombre) throws ServicioExcepcion {
+        validar(id);
         validar(nombre);
         Editorial editorial = leer(id);
+        if (editorial == null) {
+            throw new ServicioExcepcion("Editorial inválida");
+        }
         editorial.setNombre(nombre);
         editorialRepositorio.save(editorial);
     }
     
     @Transactional
     public void borrar(String id) throws ServicioExcepcion {
+        validar(id);
         Editorial editorial = leer(id);
+        if (editorial == null) {
+            throw new ServicioExcepcion("Editorial inválida");
+        }
         editorial.setAlta(false);
         List<Libro> libros = libroRepositorio.encontrarPorEditorial(id);
         for (Libro libro : libros) {

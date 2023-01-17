@@ -64,15 +64,23 @@ public class AutorServicio {
     
     @Transactional
     public void actualizar(String id, String nombre) throws ServicioExcepcion {
+        validar(id);
         validar(nombre);
         Autor autor = leer(id);
+        if (autor == null) {
+            throw new ServicioExcepcion("Autor inválido");
+        }
         autor.setNombre(nombre);
         autorRepositorio.save(autor);
     }
     
     @Transactional
     public void borrar(String id) throws ServicioExcepcion {
+        validar(id);
         Autor autor = leer(id);
+        if (autor == null) {
+            throw new ServicioExcepcion("Autor inválido");
+        }
         autor.setAlta(false);
         List<Libro> libros = libroRepositorio.encontrarPorAutor(id);
         for (Libro libro : libros) {
