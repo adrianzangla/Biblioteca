@@ -4,7 +4,8 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html xmlns:th="https://www.thymeleaf.org">
+<html lang="es" 
+      xmlns:th="https://www.thymeleaf.org">
     <head>
         <title>Editar Cliente</title>
         <meta charset="UTF-8">
@@ -32,11 +33,15 @@ and open the template in the editor.
                    name="telefono"
                    placeholder="Teléfono"
                    th:value="${cliente.telefono}">
-            <button type="submit">Editar</button>
+            <button type="submit">
+                Editar
+            </button>
         </form>
         <p th:if="${exito!=null}"
-           th:text="${exito}"></p>
+           th:text="${exito}">
+        </p>
         <p th:if="${error!=null}"
-           th:text="${error}"></p>
-</body>
+           th:text="${error}">
+        </p>
+    </body>
 </html>

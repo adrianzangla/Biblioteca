@@ -4,89 +4,81 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" 
+      xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Editar Libro</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     </head>
     <body>
-        <header class="container my-3 text-center">
-            <h2>Editar Libro</h2>
-        </header>
-        <div class="container text-center">
-            <form class="mx-3" th:action="@{/libro/editar/__${libro.id}__}" method="POST">
-                <input hidden th:value="${id}" name="id">
-                <div class="form-floating mb-1">
-                    <input th:value="${libro.isbn}" class="form-control" type="number" id="isbn" name="isbn" placeholder="ISBN">
-                    <label for="isbn">ISBN</label>
-                </div>  
-                <div class="form-floating mb-1">
-                    <input th:value="${libro.titulo}" class="form-control" type="text" id="titulo" name="titulo" placeholder="Título">
-                    <label class="form-label" for="titulo">Título</label>
-                </div>
-                <div class="form-floating mb-1">
-                    <input th:value="${libro.anio}" class="form-control" type="number" id="anio" name="anio" placeholder="Año">
-                    <label class="form-label" for="anio">Año</label>
-                </div>
-                <div class="form-floating mb-1">
-                    <input th:value="${libro.ejemplares}" class="form-control" type="number" id="ejemplares" name="ejemplares" placeholder="Ejemplares">
-                    <label class="form-label" for="ejemplares">Ejemplares</label>
-                </div>
-                <div class="form-floating mb-1">
-                    <input th:value="${libro.ejemplaresPrestados}" class="form-control" type="number" id="ejemplares-prestados" name="ejemplaresPrestados" placeholder="Ejemplares Prestados">
-                    <label class="form-label" for="ejemplares-prestados">Ejemplares Prestados</label>
-                </div>
-                <div class="form-floating mb-1">
-                    <input th:value="${libro.ejemplaresRestantes}" class="form-control" type="number" id="ejemplares-restantes" name="ejemplaresRestantes" placeholder="Ejemplares Restantes">
-                    <label class="form-label" for="ejemplares-restantes">Ejemplares Restantes</label>
-                </div>
-                <div class="form-floating mb-1">
-                    <select class="form-select" id="autor" name="idAutor" >
-                        <option th:if="${libro.autor!=null}"
-                                th:each="autor:${autores}"
-                                th:value="${autor.id}"
-                                th:text="${autor.nombre}"
-                                th:selected="${autor.id==libro.autor.id}">
-                        </option>
-                        <option th:unless="${libro.autor!=null}"
-                                th:each="autor:${autores}"
-                                th:value="${autor.id}"
-                                th:text="${autor.nombre}">
-                        </option>
-                    </select>
-                    <label for="autor">Autor</label>
-                </div>
-                <div class="form-floating mb-1">
-                    <select class="form-select" id="editorial" name="idEditorial">
-                        <option th:if="${libro.editorial!=null}"
-                                th:each="editorial:${editoriales}"
-                                th:value="${editorial.id}"
-                                th:text="${editorial.nombre}"
-                                th:selected="${editorial.id==libro.editorial.id}">
-                        </option>
-                        <option th:unless="${libro.editorial!=null}"
-                                th:each="editorial:${editoriales}"
-                                th:value="${editorial.id}"
-                                th:text="${editorial.nombre}">
-                        </option>
-                    </select>
-                    <label for="editorial">Editorial</label>
-                </div>
-                <div class="container my-2 text-center">
-                    <button class="btn btn-warning" type="submit">Editar</button>
-                </div>
-                <div class="container my-1 text-center">
-                    <a class="btn btn-primary" href="/libro/lista">Lista</a>
-                    <a class="btn btn-secondary" href="/">Volver</a>
-                </div>
-                <div class="container my-1">
-                    <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
-                    <div class="alert alert-success" role="alert" th:if="${exito != null}" th:text="${exito}"></div>
-                </div>
-            </form>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <form method="POST"
+              th:action="@{/libro/editar/__${libro.id}__}">
+            <input name="id"
+                   hidden 
+                   th:value="${id}">
+            <input type="number"
+                   name="isbn"
+                   placeholder="ISBN"
+                   th:value="${libro.isbn}">
+            <input type="text"
+                   name="titulo"
+                   placeholder="Título"
+                   th:value="${libro.titulo}">
+            <input type="number"
+                   name="anio"
+                   placeholder="Año"
+                   th:value="${libro.anio}">
+            <input type="number"
+                   name="ejemplares"
+                   placeholder="Ejemplares"
+                   th:value="${libro.ejemplares}">
+            <input type="number"
+                   name="ejemplaresPrestados"
+                   placeholder="Ejemplares Prestados"
+                   th:value="${libro.ejemplaresPrestados}">
+            <select name="idAutor"
+                    id="autor">
+                <option th:if="${libro.autor!=null}"
+                        th:each="autor:${autores}"
+                        th:value="${autor.id}"
+                        th:text="${autor.nombre}"
+                        th:selected="${autor.id==libro.autor.id}">
+                </option>
+                <option th:unless="${libro.autor!=null}"
+                        th:each="autor:${autores}"
+                        th:value="${autor.id}"
+                        th:text="${autor.nombre}">
+                </option>
+            </select>
+            <label for="autor">
+                Autor
+            </label>
+            <select name="idEditorial"
+                    id="editorial">
+                <option th:if="${libro.editorial!=null}"
+                        th:each="editorial:${editoriales}"
+                        th:value="${editorial.id}"
+                        th:text="${editorial.nombre}"
+                        th:selected="${editorial.id==libro.editorial.id}">
+                </option>
+                <option th:unless="${libro.editorial!=null}"
+                        th:each="editorial:${editoriales}"
+                        th:value="${editorial.id}"
+                        th:text="${editorial.nombre}">
+                </option>
+            </select>
+            <label for="editorial">
+                Editorial
+            </label>
+            <input type="submit"
+                   value="Editar">
+            <p th:if="${error != null}" 
+               th:text="${error}">
+            </p>
+            <p th:if="${exito != null}" 
+               th:text="${exito}">
+            </p>
+        </form>
     </body>
 </html>

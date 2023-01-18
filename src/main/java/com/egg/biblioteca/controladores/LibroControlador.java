@@ -47,7 +47,6 @@ public class LibroControlador {
             @RequestParam(required = false) Integer anio,
             @RequestParam(required = false) Integer ejemplares,
             @RequestParam(required = false) Integer ejemplaresPrestados,
-            @RequestParam(required = false) Integer ejemplaresRestantes,
             @RequestParam String idAutor,
             @RequestParam String idEditorial) {
         try {
@@ -56,7 +55,6 @@ public class LibroControlador {
                     anio,
                     ejemplares,
                     ejemplaresPrestados,
-                    ejemplaresRestantes,
                     idAutor,
                     idEditorial);
             modelo.put("exito", "Libro registrado");
@@ -94,7 +92,6 @@ public class LibroControlador {
             @RequestParam(required = false) Integer anio,
             @RequestParam(required = false) Integer ejemplares,
             @RequestParam(required = false) Integer ejemplaresPrestados,
-            @RequestParam(required = false) Integer ejemplaresRestantes,
             @RequestParam String idAutor,
             @RequestParam String idEditorial) {
         try {
@@ -104,7 +101,6 @@ public class LibroControlador {
                     anio,
                     ejemplares,
                     ejemplaresPrestados,
-                    ejemplaresRestantes,
                     idAutor,
                     idEditorial);
             modelo.put("exito", "Libro editado");

@@ -4,68 +4,61 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Libros</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     </head>
-
     <body>
-        <header class="container my-3 text-center">
-            <h1>Libros</h1>
-        </header>
-        <div class="container mb-3 text-center">
-            <a class="btn btn-success" href="/libro/registro">Registrar</a>
-            <a class="btn btn-secondary" href="/">Volver</a>
-        </div>
-        <div class="container mb-3">
-            <table class="table table-hover mx-3">
-                <thead>
-                    <tr>
-                        <th scope="col">ISBN</th>
-                        <th scope="col">Título</th>
-                        <th scope="col">Año</th>
-                        <th scope="col">Ejemplares</th>
-                        <th scope="col">Ejemplares Prestados</th>
-                        <th scope="col">Ejemplares Restantes</th>
-                        <th scope="col">Autor</th>
-                        <th scope="col">Editorial</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="libro:${libros}">
-                        <td th:text="${libro.isbn}"></td>
-                        <td th:text="${libro.titulo}"></td>
-                        <td th:text="${libro.anio}"></td>
-                        <td th:text="${libro.ejemplares}"></td>
-                        <td th:text="${libro.ejemplaresPrestados}"></td>
-                        <td th:text="${libro.ejemplaresRestantes}"></td>
-                        <td th:if="${libro.autor!=null}"
-                            th:text="${libro.autor.nombre}"></td>
-                        <td th:unless="${libro.autor!=null}"></td>
-                        <td th:if="${libro.editorial!=null}"
-                            th:text="${libro.editorial.nombre}"></td>
-                        <td th:unless="${libro.editorial!=null}"></td>
-                        <td>
-                            <a class="btn btn-warning mb-1"
-                               th:href="@{/libro/editar/__${libro.id}__}">
-                                Editar
-                            </a>
-                            <a class="btn btn-danger"
-                               th:href="@{/libro/borrar/__${libro.id}__}">
-                                Borrar
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        crossorigin="anonymous"></script>
+        <p th:if="${exito!=null}"
+           th:text="${exito}">
+        </p>
+        <p th:if="${error!=null}"
+           th:text="${error}">
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Año</th>
+                    <th scope="col">Ejemplares</th>
+                    <th scope="col">Ejemplares Prestados</th>
+                    <th scope="col">Ejemplares Restantes</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Editorial</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="libro:${libros}">
+                    <td th:text="${libro.isbn}"></td>
+                    <td th:text="${libro.titulo}"></td>
+                    <td th:text="${libro.anio}"></td>
+                    <td th:text="${libro.ejemplares}"></td>
+                    <td th:text="${libro.ejemplaresPrestados}"></td>
+                    <td th:text="${libro.ejemplaresRestantes}"></td>
+                    <td th:if="${libro.autor!=null}"
+                        th:text="${libro.autor.nombre}"></td>
+                    <td th:unless="${libro.autor!=null}"></td>
+                    <td th:if="${libro.editorial!=null}"
+                        th:text="${libro.editorial.nombre}"></td>
+                    <td th:unless="${libro.editorial!=null}"></td>
+                    <td>
+                        <a th:href="@{/libro/editar/__${libro.id}__}">
+                            Editar
+                        </a> 
+                    </td>
+                    <td>
+                        <a th:href="@{/libro/borrar/__${libro.id}__}">
+                            Borrar
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </body>
 </html>

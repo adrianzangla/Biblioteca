@@ -33,12 +33,22 @@ public class LibroServicio {
         }
     }
 
+    private void validar(Integer ejemplares,
+            Integer ejemplaresPrestados) throws ServicioExcepcion {
+
+        if (ejemplares == null || ejemplares < 0) {
+            throw new ServicioExcepcion("Ejemplares inválidos");
+        }
+        if (ejemplaresPrestados == null
+                || ejemplaresPrestados < 0
+                || ejemplaresPrestados > ejemplares) {
+            throw new ServicioExcepcion("Ejemplares Prestados inválidos");
+        }
+    }
+
     private void validar(Long isbn,
             String titulo,
-            Integer anio,
-            Integer ejemplares,
-            Integer ejemplaresPrestados,
-            Integer ejemplaresRestantes) throws ServicioExcepcion {
+            Integer anio) throws ServicioExcepcion {
         if (isbn == null || isbn < 0) {
             throw new ServicioExcepcion("ISBN inválido");
         }
@@ -48,17 +58,8 @@ public class LibroServicio {
         if (anio == null || anio < 0) {
             throw new ServicioExcepcion("Año inválido");
         }
-        if (ejemplares == null || ejemplares < 0) {
-            throw new ServicioExcepcion("Ejemplares inválido");
-        }
-        if (ejemplaresPrestados == null || ejemplaresPrestados < 0) {
-            throw new ServicioExcepcion("Ejemplares Prestados inválidos");
-        }
-        if (ejemplaresRestantes == null || ejemplaresRestantes < 0) {
-            throw new ServicioExcepcion("Ejemplares Restantes inválidos");
-        }
     }
-    
+
     public Libro leer(String id) throws ServicioExcepcion {
         validar(id);
         Libro libro = libroRepositorio.econtrarAutorPorIdActivo(id);
@@ -71,35 +72,30 @@ public class LibroServicio {
     public List<Libro> leer() {
         return libroRepositorio.encontrarTodosLibroActivo();
     }
-    
+
     @Transactional
     public void crear(Long isbn,
             String titulo,
             Integer anio,
             Integer ejemplares,
             Integer ejemplaresPrestados,
-            Integer ejemplaresRestantes,
             String idAutor,
             String idEditorial) throws ServicioExcepcion {
-        validar(isbn,
-                titulo,
-                anio,
-                ejemplares,
-                ejemplaresPrestados,
-                ejemplaresRestantes);
+        validar(isbn, titulo, anio);
+        validar(ejemplares, ejemplaresPrestados);
         Libro libro = new Libro();
         libro.setIsbn(isbn);
         libro.setTitulo(titulo);
         libro.setAnio(anio);
         libro.setEjemplares(ejemplares);
         libro.setEjemplaresPrestados(ejemplaresPrestados);
-        libro.setEjemplaresRestantes(ejemplaresRestantes);
+        libro.setEjemplaresRestantes(ejemplares - ejemplaresPrestados);
         libro.setAlta(true);
         libro.setAutor(autorServicio.leer(idAutor));
         libro.setEditorial(editorialServicio.leer(idEditorial));
         libroRepositorio.save(libro);
     }
-    
+
     @Transactional
     public void actualizar(String id,
             Long isbn,
@@ -107,38 +103,37 @@ public class LibroServicio {
             Integer anio,
             Integer ejemplares,
             Integer ejemplaresPrestados,
-            Integer ejemplaresRestantes,
             String idAutor,
             String idEditorial) throws ServicioExcepcion {
-        validar(id);
-        validar(isbn,
-                titulo,
-                anio,
-                ejemplares,
-                ejemplaresPrestados,
-                ejemplaresRestantes);
+        validar(isbn, titulo, anio);
+        validar(ejemplares, ejemplaresPrestados);
         Libro libro = leer(id);
-        if (libro == null) {
-            throw new ServicioExcepcion("Libro inválido");
-        }
         libro.setIsbn(isbn);
         libro.setTitulo(titulo);
         libro.setAnio(anio);
         libro.setEjemplares(ejemplares);
         libro.setEjemplaresPrestados(ejemplaresPrestados);
-        libro.setEjemplaresRestantes(ejemplaresRestantes);
+        libro.setEjemplaresRestantes(ejemplares - ejemplaresPrestados);
         libro.setAutor(autorServicio.leer(idAutor));
         libro.setEditorial(editorialServicio.leer(idEditorial));
         libroRepositorio.save(libro);
     }
-    
+
+    @Transactional
+    public Libro prestar(String id) throws ServicioExcepcion {
+        Libro libro = leer(id);
+        if (libro.getEjemplaresRestantes() < 1) {
+            throw new ServicioExcepcion("No quedan más libros");
+        }
+        libro.setEjemplaresPrestados(libro.getEjemplaresPrestados()+1);
+        libro.setEjemplaresRestantes(libro.getEjemplares() - libro.getEjemplaresPrestados());
+        libroRepositorio.save(libro);
+        return libro;
+    }
+
     @Transactional
     public void borrar(String id) throws ServicioExcepcion {
-        validar(id);
         Libro libro = leer(id);
-        if (libro == null) {
-            throw new ServicioExcepcion("Libro inválido");
-        }
         libro.setAlta(false);
         libroRepositorio.save(libro);
     }
