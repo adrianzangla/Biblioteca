@@ -105,30 +105,25 @@ public class LibroServicio {
             Integer ejemplaresPrestados,
             String idAutor,
             String idEditorial) throws ServicioExcepcion {
+        
         validar(isbn, titulo, anio);
         validar(ejemplares, ejemplaresPrestados);
+        
         Libro libro = leer(id);
+        
         libro.setIsbn(isbn);
         libro.setTitulo(titulo);
         libro.setAnio(anio);
+        
         libro.setEjemplares(ejemplares);
         libro.setEjemplaresPrestados(ejemplaresPrestados);
         libro.setEjemplaresRestantes(ejemplares - ejemplaresPrestados);
+        
         libro.setAutor(autorServicio.leer(idAutor));
+        
         libro.setEditorial(editorialServicio.leer(idEditorial));
+        
         libroRepositorio.save(libro);
-    }
-
-    @Transactional
-    public Libro prestar(String id) throws ServicioExcepcion {
-        Libro libro = leer(id);
-        if (libro.getEjemplaresRestantes() < 1) {
-            throw new ServicioExcepcion("No quedan más libros");
-        }
-        libro.setEjemplaresPrestados(libro.getEjemplaresPrestados()+1);
-        libro.setEjemplaresRestantes(libro.getEjemplares() - libro.getEjemplaresPrestados());
-        libroRepositorio.save(libro);
-        return libro;
     }
 
     @Transactional
@@ -136,5 +131,24 @@ public class LibroServicio {
         Libro libro = leer(id);
         libro.setAlta(false);
         libroRepositorio.save(libro);
+    }
+    
+    @Transactional
+    public Libro prestar(String id) throws ServicioExcepcion {
+        Libro libro = leer(id);
+        libro.setEjemplaresPrestados(libro.getEjemplaresPrestados()+1);
+        libro.setEjemplaresRestantes(libro.getEjemplares()
+                -libro.getEjemplaresPrestados());
+        libroRepositorio.save(libro);
+        return libro;
+    }
+    
+    @Transactional
+    public Libro devolver(String id) throws ServicioExcepcion {
+        Libro libro = leer(id);
+        libro.setEjemplaresPrestados(libro.getEjemplaresPrestados()-1);
+        libro.setEjemplaresRestantes(libro.getEjemplares() - libro.getEjemplaresPrestados());
+        libroRepositorio.save(libro);
+        return libro;
     }
 }

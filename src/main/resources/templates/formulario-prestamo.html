@@ -15,10 +15,19 @@ and open the template in the editor.
         <form method="POST"
               action="/prestamo/registro">
             <input type="date"
+                   name="fechaPrestamo"
+                   th:value="${fechaPrestamo}"
+                   readonly
+                   id="fecha-prestamo">
+            <label for="fecha-prestamo">
+                Fecha de Préstamo
+            </label>
+            <input type="date"
                    name="fechaDevolucion"
-                   placeholder="Fecha de Devolucion">
-            <input type="submit"
-                   value="Registrar">
+                   id="fecha-devolucion">
+            <label for="fecha-devolucion">
+                Fecha de Devolución
+            </label>
             <select name="idLibro"
                     id="libro">
                 <option th:each="libro:${libros}"
