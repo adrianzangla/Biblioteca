@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="es"
+      xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <title>Cambiar fecha de devolución</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form method="POST"
+              th:action="@{/prestamo/editar/__${prestamo.id}__}">
+            <input type="text"
+                   name="id"
+                   hidden
+                   th:value="${prestamo.id}">
+            <input type="date"
+                   name="fechaPrestamo"
+                   th:value="${fechaPrestamo}"
+                   readonly
+                   id="fecha-prestamo">
+            <label for="fecha-prestamo">
+                Fecha de Préstamo
+            </label>
+            <input type="date"
+                   name="fechaDevolucion"
+                   id="fecha-devolucion"
+                   th:value="${fechaDevolucion}">
+            <label for="fecha-devolucion">
+                Fecha de Devolución
+            </label>
+            <select name="idLibro"
+                    id="libro">
+                <option th:value="${prestamo.libro.id}"
+                        th:text="${prestamo.libro.titulo}">
+                </option>
+            </select>
+            <label for="libro">
+                Libro
+            </label>
+            <select name="idCliente"
+                    id="cliente">
+                <option th:value="${prestamo.cliente.id}"
+                        th:text="${prestamo.cliente.nombre} 
+                        + ' ' + ${prestamo.cliente.apellido}">
+                </option>
+            </select>
+            <label for="cliente">
+                Cliente
+            </label>
+            <input type="submit"
+                   value="Editar">
+        </form>
+        <p th:if="${exito}!=null"
+           th:text="${exito}">
+        </p>
+        <p th:if="${erro}!=null"
+           th:text="${error}">
+        </p>
+    </body>
+</html>

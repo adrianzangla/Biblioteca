@@ -12,6 +12,12 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <p th:if="${exito!=null}"
+           th:text="${exito}">
+        </p>
+        <p th:if="${error!=null}"
+           th:text="${error}">
+        </p>
         <table>
             <thead>
                 <tr>
@@ -19,8 +25,8 @@ and open the template in the editor.
                     <th scope="col">Fecha de Devolución</th>
                     <th scope="col">Libro</th>
                     <th scope="col">Cliente</th> 
-                    <th scope="col">Editar</th>
-                    <th scope="col">Borrar</th>
+                    <th scope="col">Cambiar fecha</th>
+                    <th scope="col">Devolver</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,12 +41,12 @@ and open the template in the editor.
                         + ' ' + ${prestamo.cliente.apellido}">
                     </td>
                     <td>
-                        <a th:href="@{/prestamo/cambiar-fecha/__${prestamo.id}__}">
-                            Cambiar fecha de Devolución
+                        <a th:href="@{/prestamo/editar/__${prestamo.id}__}">
+                            Cambiar fecha
                         </a>
                     </td>
                     <td>
-                        <a th:href="@{/prestamo/devolver/__${prestamo.id}__}">
+                        <a th:href="@{/prestamo/borrar/__${prestamo.id}__}">
                             Devolver
                         </a>
                     </td>

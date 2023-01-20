@@ -3,10 +3,8 @@ Biblioteca Web
 
 Ejercicio del curso de Egg Full Stack
 
-Simple CRUD de una biblioteca, utilizando Spring Framework, Java, MySQL y Bootstrap
+Biblioteca con sistema de registro de préstamos.
 
-Tareas que falta realizar:
-    Mejorar este readme
-    Mejorar la interfaz de usuario
-    Que los libros tengan fotos, tambien con funcionalidad CRUD
-    Usuarios y securizacion con Spring Security
+Falta realizar:
+    Fotos de libros
+    Agregar estilos con CSS y Bootstrap
