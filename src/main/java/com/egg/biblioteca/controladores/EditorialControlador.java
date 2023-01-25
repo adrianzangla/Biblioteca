@@ -79,11 +79,11 @@ public class EditorialControlador {
     public String borrar(@PathVariable String id, ModelMap modelo) {
         try {
             editorialServicio.borrar(id);
-            return "redirect:/editorial/lista";
         } catch (ServicioExcepcion ex) {
-            modelo.put("error", ex.getMessage());
-            return listar(modelo);
+            System.out.println(ex.getMessage());
         }
+        return "redirect:/#editoriales";
+
     }
 
 }

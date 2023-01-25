@@ -44,12 +44,6 @@ public class AutorControlador {
         }
     }
 
-    @GetMapping("/lista")
-    public String listar(ModelMap modelo) {
-        modelo.addAttribute("autores", autorServicio.leer());
-        return "lista-autores.html";
-    }
-
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable String id, ModelMap modelo) {
         try {
@@ -76,13 +70,12 @@ public class AutorControlador {
     }
 
     @GetMapping("/borrar/{id}")
-    public String borrar(@PathVariable String id, ModelMap modelo) {
+    public String borrar(@PathVariable String id) {
         try {
             autorServicio.borrar(id);
-            return "redirect:/autor/lista";
         } catch (ServicioExcepcion ex) {
-            modelo.put("error", ex.getMessage());
-            return listar(modelo);
+            System.out.println(ex.getMessage());
         }
+        return "redirect:/#autores";
     }
 }

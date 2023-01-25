@@ -87,18 +87,10 @@ public class PrestamoServicio {
     }
 
     public void actualizar(String id,
-            Date fechaPrestamo,
-            Date fechaDevolucion,
-            String idLibro,
-            String idCliente) throws ServicioExcepcion {
+            Date fechaDevolucion) throws ServicioExcepcion {
         Prestamo prestamo = leer(id);
         validar(prestamo.getFechaPrestamo(), fechaDevolucion);
-        Libro libro = libroServicio.leer(idLibro);
-        Cliente cliente = clienteServicio.leer(idCliente);
-        prestamo.setFechaPrestamo(fechaPrestamo);
         prestamo.setFechaDevolucion(fechaDevolucion);
-        prestamo.setLibro(libro);
-        prestamo.setCliente(cliente);
         prestamoRepositorio.save(prestamo);
     }
 
@@ -106,5 +98,6 @@ public class PrestamoServicio {
         Prestamo prestamo = leer(id);
         prestamo.setAlta(false);
         prestamoRepositorio.save(prestamo);
+        libroServicio.devolver(prestamo.getLibro().getId());
     }
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -71,12 +72,6 @@ public class PrestamoControlador {
         return registrar(modelo);
     }
 
-    @GetMapping("/lista")
-    public String listar(ModelMap modelo) {
-        modelo.addAttribute("prestamos", prestamoServicio.leer());
-        return "lista-prestamos";
-    }
-
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable String id, ModelMap modelo) {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -89,7 +84,7 @@ public class PrestamoControlador {
             modelo.put("fechaDevolucion", fechaDevolucion);
         } catch (ServicioExcepcion e) {
             modelo.put("error", e.getMessage());
-            return listar(modelo);
+            return editar(id, modelo);
         }
         return "editar-prestamo.html";
     }
@@ -104,30 +99,26 @@ public class PrestamoControlador {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         try {
             prestamoServicio.actualizar(id,
-                    formato.parse(fechaPrestamo),
-                    formato.parse(fechaDevolucion),
-                    idLibro,
-                    idCliente);
+                    formato.parse(fechaDevolucion));
             modelo.put("exito", "Préstamo editado");
         } catch (ServicioExcepcion e1) {
             modelo.put("error", e1.getMessage());
         } catch (ParseException e2) {
             modelo.put("error", "Fecha inválida");
         } finally {
-            return editar(id, modelo); 
+            return editar(id, modelo);
         }
     }
-    
+
     @GetMapping("/borrar/{id}")
-    public String borrar(@PathVariable String id,
-            ModelMap modelo) {
+    public String borrar(@PathVariable String id) {
         try {
             prestamoServicio.borrar(id);
         } catch (ServicioExcepcion e) {
-            modelo.put("error", e.getMessage());
+            System.out.println(e.getMessage());
         } finally {
-            return "redirect:/prestamo/lista";
+            return "redirect:/#prestamos";
         }
     }
-    
+
 }

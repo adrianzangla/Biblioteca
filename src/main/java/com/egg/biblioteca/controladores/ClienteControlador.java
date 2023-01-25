@@ -1,9 +1,7 @@
 package com.egg.biblioteca.controladores;
 
-import com.egg.biblioteca.entidades.Cliente;
 import com.egg.biblioteca.excepciones.ServicioExcepcion;
 import com.egg.biblioteca.servicios.ClienteServicio;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,6 +17,9 @@ public class ClienteControlador {
 
     @Autowired
     ClienteServicio clienteServicio;
+    
+    @Autowired
+    PortalControlador portalControlador;
 
     @GetMapping("/registro")
     public String registrar() {
@@ -39,13 +40,6 @@ public class ClienteControlador {
         } finally {
             return "formulario-cliente.html";
         }
-    }
-
-    @GetMapping("/lista")
-    public String listar(ModelMap modelo) {
-        List<Cliente> clientes = clienteServicio.leer();
-        modelo.addAttribute("clientes", clientes);
-        return "lista-clientes.html";
     }
 
     @GetMapping("/editar/{id}")
@@ -85,10 +79,10 @@ public class ClienteControlador {
     public String borrar(@PathVariable String id, ModelMap modelo){
         try {
             clienteServicio.borrar(id);
-            return "redirect:/cliente/lista";
+            modelo.put("exito", "Cliente borrado");
         } catch (ServicioExcepcion e) {
             modelo.put("error", e.getMessage());
-            return listar(modelo);
         }
+        return "redirect:/#clientes";
     }
 }

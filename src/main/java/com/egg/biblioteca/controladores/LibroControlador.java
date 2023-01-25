@@ -46,7 +46,6 @@ public class LibroControlador {
             @RequestParam String titulo,
             @RequestParam(required = false) Integer anio,
             @RequestParam(required = false) Integer ejemplares,
-            @RequestParam(required = false) Integer ejemplaresPrestados,
             @RequestParam String idAutor,
             @RequestParam String idEditorial) {
         try {
@@ -54,7 +53,6 @@ public class LibroControlador {
                     titulo,
                     anio,
                     ejemplares,
-                    ejemplaresPrestados,
                     idAutor,
                     idEditorial);
             modelo.put("exito", "Libro registrado");
@@ -91,7 +89,6 @@ public class LibroControlador {
             @RequestParam(required = false) Long isbn,
             @RequestParam(required = false) Integer anio,
             @RequestParam(required = false) Integer ejemplares,
-            @RequestParam(required = false) Integer ejemplaresPrestados,
             @RequestParam String idAutor,
             @RequestParam String idEditorial) {
         try {
@@ -100,7 +97,6 @@ public class LibroControlador {
                     titulo,
                     anio,
                     ejemplares,
-                    ejemplaresPrestados,
                     idAutor,
                     idEditorial);
             modelo.put("exito", "Libro editado");
@@ -115,10 +111,9 @@ public class LibroControlador {
     public String borrar(@PathVariable String id, ModelMap modelo) {
         try {
             libroServicio.borrar(id);
-            return "redirect:/libro/lista";
         } catch (ServicioExcepcion ex) {
-            modelo.put("error", ex.getMessage());
-            return listar(modelo);
+            System.out.println(ex.getMessage());
         }
+        return "redirect:/#libros";
     }
 }
