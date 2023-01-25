@@ -5,6 +5,9 @@ Ejercicio del curso de Egg Full Stack
 
 Biblioteca con sistema de registro de préstamos.
 
-Falta realizar:
-    Fotos de libros
-    Agregar estilos con CSS y Bootstrap
+Tecnologías utilizadas:
+    Java
+    Spring
+    Thymeleaf
+    MySQL
+    HTML, CSS, Bootstrap
